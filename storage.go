@@ -6,7 +6,7 @@ import "errors"
 type Key string
 
 // Value is an arbitrary type representing data stored in the KeyValueStore.
-type Value string
+type Value interface{}
 
 // KeyValueStore provides the core data structure.
 type KeyValueStore struct {
@@ -43,24 +43,27 @@ func (kvs KeyValueStore) exec() {
 			// Test whether the key already exists
 			_, ok = kvs.x[*(o.K)]
 			if ok {
-				o.Fail(errors.New("Key exists"))
+				o.Result(errors.New("Key exists"))
 				break
 			}
 			kvs.x[*(o.K)] = o.V
+			o.Result(nil)
 		case *UpdateOperation:
 			o.OldV, ok = kvs.x[*(o.K)]
 			if !ok {
-				o.Fail(errors.New("Key doesn't exist"))
+				o.Result(errors.New("Key doesn't exist"))
 				break
 			}
 			kvs.x[*(o.K)] = o.V
+			o.Result(nil)
 		case *DeleteOperation:
 			o.OldV, ok = kvs.x[*(o.K)]
 			if !ok {
-				o.Fail(errors.New("Key doesn't exist"))
+				o.Result(errors.New("Key doesn't exist"))
 				break
 			}
 			delete(kvs.x, *(o.K))
+			o.Result(nil)
 		}
 	}
 }

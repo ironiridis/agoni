@@ -18,8 +18,7 @@ const (
 type Operation interface {
 	Commit()
 	Key() *Key
-	Succeed()
-	Fail(error)
+	Result(error)
 }
 
 // A DeleteOperation represents the removal of a Key from the KeyValueStore.
@@ -54,11 +53,7 @@ func (o *DeleteOperation) Key() *Key {
 	return o.K
 }
 
-func (o *DeleteOperation) Succeed() {
-
-}
-
-func (o *DeleteOperation) Fail(e error) {
+func (o *DeleteOperation) Result(e error) {
 
 }
 
@@ -72,11 +67,7 @@ func (o *NewOperation) Key() *Key {
 	return o.K
 }
 
-func (o *NewOperation) Succeed() {
-
-}
-
-func (o *NewOperation) Fail(e error) {
+func (o *NewOperation) Result(e error) {
 
 }
 
@@ -90,11 +81,7 @@ func (o *UpdateOperation) Key() *Key {
 	return o.K
 }
 
-func (o *UpdateOperation) Succeed() {
-
-}
-
-func (o *UpdateOperation) Fail(e error) {
+func (o *UpdateOperation) Result(e error) {
 
 }
 
